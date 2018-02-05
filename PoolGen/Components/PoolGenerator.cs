@@ -12,8 +12,14 @@ namespace PoolGen.Components
         public List<Pool> GeneratePools(int numOfPools, int numOfTeams, int numOfRounds)
         {
             var pools = new List<Pool>();
-            pools = CreatePoolObjects(numOfPools, pools);
-            foreach(var pool in pools)
+            CreatePoolObjects(numOfPools, pools);
+            CreateTeamObjects(pools);
+            return pools;
+        }
+
+        private void CreateTeamObjects(List<Pool> pools)
+        {
+            foreach (var pool in pools)
             {
                 pool.Teams = new List<Team>
                 {
@@ -21,16 +27,14 @@ namespace PoolGen.Components
                     new Team()
                 };
             }
-            return pools;
         }
 
-        private List<Pool> CreatePoolObjects(int numOfPools, List<Pool> pools)
+        private void CreatePoolObjects(int numOfPools, List<Pool> pools)
         {
             for (int i = 0; i < numOfPools; i++)
             {
                 pools.Add(new Pool());
             }
-            return pools;
         }
     }
 }
