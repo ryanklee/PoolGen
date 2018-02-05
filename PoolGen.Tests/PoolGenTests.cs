@@ -6,10 +6,10 @@ using Xunit;
 
 namespace PoolGen.Tests
 {
-    public class PoolGenTests
+    public class GeneratePoolsTests
     {
         [Fact]
-        public void GeneratePools_Returns_List_of_Type_Pool()
+        public void Returns_List_of_Type_Pool()
         {
             PoolGenerator generator = new PoolGenerator();
             var result = generator.GeneratePools(1, 1, 1);
@@ -17,7 +17,7 @@ namespace PoolGen.Tests
         }
         
         [Fact]
-        public void GeneratePools_Returns_PoolList_Containing_Single_Pool()
+        public void Returns_PoolList_Containing_Single_Pool()
         {
             PoolGenerator generator = new PoolGenerator();
             var result = generator.GeneratePools(1, 1, 1);
