@@ -13,6 +13,14 @@ namespace PoolGen.Components
         {
             var pools = new List<Pool>();
             pools = CreatePoolObjects(numOfPools, pools);
+            foreach(var pool in pools)
+            {
+                pool.Teams = new List<Team>
+                {
+                    new Team(),
+                    new Team()
+                };
+            }
             return pools;
         }
 

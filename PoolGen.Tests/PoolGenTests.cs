@@ -37,5 +37,14 @@ namespace PoolGen.Tests
             var actual = pools.Count;
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void Pool_Objects_Contains_At_Least_Two_Team_Objects()
+        {
+            PoolGenerator generator = new PoolGenerator();
+            var pools = generator.GeneratePools(1, 1, 1);
+            bool result = pools.All(pool => pool.Teams.Count() >= 2);
+            Assert.True(result);
+        }
     }
 }
