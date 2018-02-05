@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PoolGen.Services
+namespace PoolGen.Components
 {
     public class PoolGenerator : IPoolGenerator
     {
-        public List<Pool> GeneratePools()
+        public List<Pool> GeneratePools(int numOfpools, int numOfteams, int numOfRounds)
         {
             var pools = new List<Pool>();
             return pools;
