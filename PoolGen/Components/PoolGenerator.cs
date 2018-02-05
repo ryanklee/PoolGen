@@ -12,6 +12,12 @@ namespace PoolGen.Components
         public List<Pool> GeneratePools(int numOfPools, int numOfTeams, int numOfRounds)
         {
             var pools = new List<Pool>();
+            pools = CreatePoolObjects(numOfPools, pools);
+            return pools;
+        }
+
+        private List<Pool> CreatePoolObjects(int numOfPools, List<Pool> pools)
+        {
             for (int i = 0; i < numOfPools; i++)
             {
                 pools.Add(new Pool());
