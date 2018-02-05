@@ -9,11 +9,12 @@ namespace PoolGen.Tests
     public class PoolGenTests
     {
         [Fact]
-        public void PoolGen_Returns_List_of_Type_Pool()
+        public void GeneratePools_Returns_List_of_Type_Pool()
         {
             PoolGenerator generator = new PoolGenerator();
             var result = generator.GeneratePools(1, 1, 1);
             Assert.IsType<List<Pool>>(result);
         }
+        
     }
 }
