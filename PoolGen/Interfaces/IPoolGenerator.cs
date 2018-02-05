@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PoolGen.Interfaces
 {
-    public interface IPoolGen
+    public interface IPoolGenerator
     {
         List<Pool> GeneratePools(int numOfpools, int numOfteams, int numOfRounds);
     }
