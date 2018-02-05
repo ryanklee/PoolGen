@@ -27,6 +27,7 @@ namespace PoolGen.Tests
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
+        [InlineData(0)]
         public void Returns_PoolList_Containing_Specified_Number_of_Pools(int numOfPools)
         {
             PoolGenerator generator = new PoolGenerator();
