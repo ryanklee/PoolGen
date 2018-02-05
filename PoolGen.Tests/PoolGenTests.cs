@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using PoolGen.Models;
 using PoolGen.Components;
 using Xunit;
+using System.Linq;
 
 namespace PoolGen.Tests
 {
@@ -17,11 +18,11 @@ namespace PoolGen.Tests
         }
         
         [Fact]
-        public void PoolList_Contains_Single_Pool()
+        public void PoolList_Contains_AtLeast_Single_Pool()
         {
             PoolGenerator generator = new PoolGenerator();
             var result = generator.GeneratePools(1, 1, 1);
-            Assert.IsType<Pool>(result[0]);
+            Assert.IsType<Pool>(result.First());
         }
 
         [Theory]
@@ -36,6 +37,5 @@ namespace PoolGen.Tests
             var actual = pools.Count;
             Assert.Equal(expected, actual);
         }
-        
     }
 }
