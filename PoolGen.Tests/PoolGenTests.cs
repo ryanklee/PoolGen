@@ -17,7 +17,7 @@ namespace PoolGen.Tests
         }
         
         [Fact]
-        public void Returns_PoolList_Containing_Single_Pool()
+        public void PoolList_Contains_Single_Pool()
         {
             PoolGenerator generator = new PoolGenerator();
             var result = generator.GeneratePools(1, 1, 1);
@@ -28,7 +28,7 @@ namespace PoolGen.Tests
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(0)]
-        public void Returns_PoolList_Containing_Specified_Number_of_Pools(int numOfPools)
+        public void PoolList_Contains_Specified_Number_of_Pools(int numOfPools)
         {
             PoolGenerator generator = new PoolGenerator();
             var pools = generator.GeneratePools(numOfPools, 1, 1);
@@ -36,5 +36,6 @@ namespace PoolGen.Tests
             var actual = pools.Count;
             Assert.Equal(expected, actual);
         }
+        
     }
 }
