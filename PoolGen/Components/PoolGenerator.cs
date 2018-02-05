@@ -9,10 +9,13 @@ namespace PoolGen.Components
 {
     public class PoolGenerator : IPoolGenerator
     {
-        public List<Pool> GeneratePools(int numOfpools, int numOfteams, int numOfRounds)
+        public List<Pool> GeneratePools(int numOfPools, int numOfTeams, int numOfRounds)
         {
             var pools = new List<Pool>();
-            pools.Add(new Pool());
+            for (int i = 0; i < numOfPools; i++)
+            {
+                pools.Add(new Pool());
+            }
             return pools;
         }
     }
