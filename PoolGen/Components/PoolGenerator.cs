@@ -12,18 +12,39 @@ namespace PoolGen.Components
         public List<Pool> GeneratePools(int numOfPools, int numOfTeams, int numOfRounds)
         {
             ValidateArgs(numOfPools, numOfTeams, numOfRounds);
-
             var pools = new List<Pool>();
             CreatePoolObjects(numOfPools, pools);
             CreateTeamObjects(numOfTeams, pools);
+            SnakeSeedTeamNames(numOfTeams, pools);
             return pools;
+        }
+
+        private void SnakeSeedTeamNames(int numOfTeams, List<Pool> pools)
+        {
+            var teamCounter = 1;
+            var passes = 0;
+            var passesNeeded = (numOfTeams / pools.Count) / 2;
+
+            while (passes <= passesNeeded)
+            for (int j = 0; j < pools.Count; j++)
+            {
+                pools[j].Teams[passes].Name = "Team" + teamCounter.ToString();
+                teamCounter++;
+            }
+            
+            for (int k = pools.Count - 1; k >= 0; k--)
+            {
+                pools[k].Teams[passes].Name = "Team" + teamCounter.ToString();
+                teamCounter++;
+            }
+            passes++;
         }
 
         private void CreatePoolObjects(int numOfPools, List<Pool> pools)
         {
             for (int i = 0; i < numOfPools; i++)
             {
-                pools.Add(new Pool() { Name = "Pool A" + GetLetter(i)});
+                pools.Add(new Pool() { Name = "Pool A" + GetLetter(i) });
             }
         }
 
@@ -34,7 +55,7 @@ namespace PoolGen.Components
 
         private void CreateTeamObjects(int numOfTeams, List<Pool> pools)
         {
-            var numTeamsPerPool = numOfTeams / pools.Count();
+            var numTeamsPerPool = numOfTeams / pools.Count;
             var overFlow = numOfTeams % pools.Count;
 
             foreach (var pool in pools)
