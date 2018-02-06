@@ -23,8 +23,13 @@ namespace PoolGen.Components
         {
             for (int i = 0; i < numOfPools; i++)
             {
-                pools.Add(new Pool());
+                pools.Add(new Pool() { Name = "Pool A" + GetLetter(i)});
             }
+        }
+
+        private string GetLetter(int i)
+        {
+            return Convert.ToChar(i + 65).ToString();
         }
 
         private void CreateTeamObjects(int numOfTeams, List<Pool> pools)
@@ -49,7 +54,6 @@ namespace PoolGen.Components
                 }
             }
         }
-
 
         private static void ValidateArgs(int numOfPools, int numOfTeams, int numOfRounds)
         {
