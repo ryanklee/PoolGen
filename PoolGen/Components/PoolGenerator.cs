@@ -11,21 +11,38 @@ namespace PoolGen.Components
     {
         public List<Pool> GeneratePools(int numOfPools, int numOfTeams, int numOfRounds)
         {
+            ValidateArgs(numOfPools, numOfTeams, numOfRounds);
+
             var pools = new List<Pool>();
             CreatePoolObjects(numOfPools, pools);
-            CreateTeamObjects(pools);
+            CreateTeamObjects(numOfTeams, pools);
             return pools;
         }
 
-        private void CreateTeamObjects(List<Pool> pools)
+        private static void ValidateArgs(int numOfPools, int numOfTeams, int numOfRounds)
         {
+            if (numOfPools == 0 || numOfTeams < 2 || numOfRounds < 1)
+            {
+                throw new ArgumentException("Incorrect argument");
+            }
+        }
+
+        private void CreateTeamObjects(int numOfTeams, List<Pool> pools)
+        {
+            var numTeamsPerPool = numOfTeams / pools.Count();
+
             foreach (var pool in pools)
             {
-                pool.Teams = new List<Team>
+                pool.Teams = new List<Team>();
+                for (int i = 0; i < numOfTeams; i++)
                 {
-                    new Team(),
-                    new Team()
-                };
+                    pool.Teams.Add(new Team());
+                }
+            }
+
+            if (pools.Count() % 2 != 0)
+            {
+                pools.Last().Teams.Add(new Team());
             }
         }
 
