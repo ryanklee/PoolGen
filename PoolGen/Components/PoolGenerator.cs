@@ -15,36 +15,72 @@ namespace PoolGen.Components
             var pools = new List<Pool>();
             CreatePoolObjects(numOfPools, pools);
             CreateTeamObjects(numOfTeams, pools);
-            SnakeSeedTeamNames(numOfTeams, pools);
+            AssignSnakeSeedTeamNames(numOfTeams, pools);
+            AssignGames(pools);
             return pools;
         }
 
-        private void SnakeSeedTeamNames(int numOfTeams, List<Pool> pools)
+        private void AssignGames(List<Pool> pools)
+        {
+
+            foreach (var pool in pools)
+            {
+                var gameList = GetPermutations(pool.Teams, 2);
+                var numOfGames = gameList.Count();
+
+                CreateGameObjects(numOfGames, pool);
+                HydrateGameObjects(pool, gameList.ToList());
+            }
+        }
+
+        private static void HydrateGameObjects(Pool pool, List<IEnumerable<Team>> gameList)
+        {
+
+        }
+
+        private void CreateGameObjects(int numOfGames, Pool pool)
+        {
+            pool.Games = new List<Game>();
+            for (int i = 0; i < numOfGames; i++)
+            {
+                pool.Games.Add(new Game() { Teams = new List<Team>() });
+            }
+        }
+
+        private void AssignSnakeSeedTeamNames(int numOfTeams, List<Pool> pools)
         {
             var teamCounter = 1;
             var passes = 0;
-            var passesNeeded = (numOfTeams / pools.Count) / 2;
 
-            while (passes <= passesNeeded)
-            for (int j = 0; j < pools.Count; j++)
+            while (teamCounter <= numOfTeams)
             {
-                pools[j].Teams[passes].Name = "Team" + teamCounter.ToString();
-                teamCounter++;
+                for (int j = 0; j < pools.Count && teamCounter <= numOfTeams; j++)
+                {
+                    if (passes < pools[j].Teams.Count)
+                    {
+                        pools[j].Teams[passes].Name = "Team " + teamCounter.ToString();
+                        teamCounter++;
+                    }
+                }
+                passes++;
+
+                for (int k = pools.Count - 1; k >= 0 && teamCounter <= numOfTeams; k--)
+                {
+                    if (passes < pools[k].Teams.Count)
+                    {
+                        pools[k].Teams[passes].Name = "Team " + teamCounter.ToString();
+                        teamCounter++;
+                    }
+                }
+                passes++;
             }
-            
-            for (int k = pools.Count - 1; k >= 0; k--)
-            {
-                pools[k].Teams[passes].Name = "Team" + teamCounter.ToString();
-                teamCounter++;
-            }
-            passes++;
         }
 
         private void CreatePoolObjects(int numOfPools, List<Pool> pools)
         {
             for (int i = 0; i < numOfPools; i++)
             {
-                pools.Add(new Pool() { Name = "Pool A" + GetLetter(i) });
+                pools.Add(new Pool() { Name = "Pool " + GetLetter(i) });
             }
         }
 
@@ -84,6 +120,23 @@ namespace PoolGen.Components
                 numOfTeams < numOfPools * 2)
             {
                 throw new ArgumentException("Incorrect argument");
+            }
+        }
+
+        IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> items, int count)
+        {
+            int i = 0;
+            foreach (var item in items)
+            {
+                if (count == 1)
+                    yield return new T[] { item };
+                else
+                {
+                    foreach (var result in GetPermutations(items.Skip(i + 1), count - 1))
+                        yield return new T[] { item }.Concat(result);
+                }
+
+                ++i;
             }
         }
     }
