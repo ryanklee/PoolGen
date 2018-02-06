@@ -19,14 +19,6 @@ namespace PoolGen.Components
             return pools;
         }
 
-        private static void ValidateArgs(int numOfPools, int numOfTeams, int numOfRounds)
-        {
-            if (numOfPools == 0 || numOfTeams < 2 || numOfRounds < 1)
-            {
-                throw new ArgumentException("Incorrect argument");
-            }
-        }
-
         private void CreateTeamObjects(int numOfTeams, List<Pool> pools)
         {
             var numTeamsPerPool = numOfTeams / pools.Count();
@@ -34,7 +26,7 @@ namespace PoolGen.Components
             foreach (var pool in pools)
             {
                 pool.Teams = new List<Team>();
-                for (int i = 0; i < numOfTeams; i++)
+                for (int i = 0; i < numTeamsPerPool; i++)
                 {
                     pool.Teams.Add(new Team());
                 }
@@ -51,6 +43,17 @@ namespace PoolGen.Components
             for (int i = 0; i < numOfPools; i++)
             {
                 pools.Add(new Pool());
+            }
+        }
+
+        private static void ValidateArgs(int numOfPools, int numOfTeams, int numOfRounds)
+        {
+            if (numOfPools == 0 ||
+                numOfTeams < 2 ||
+                numOfRounds < 1 ||
+                numOfTeams < numOfPools * 2)
+            {
+                throw new ArgumentException("Incorrect argument");
             }
         }
     }
