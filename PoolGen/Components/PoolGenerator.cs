@@ -16,35 +16,8 @@ namespace PoolGen.Components
             CreatePoolObjects(numOfPools, pools);
             CreateTeamObjects(numOfTeams, pools);
             AssignSnakeSeedTeamNames(numOfTeams, pools);
-            AssignGames(pools);
+    
             return pools;
-        }
-
-        private void AssignGames(List<Pool> pools)
-        {
-
-            foreach (var pool in pools)
-            {
-                var gameList = GetPermutations(pool.Teams, 2);
-                var numOfGames = gameList.Count();
-
-                CreateGameObjects(numOfGames, pool);
-                HydrateGameObjects(pool, gameList.ToList());
-            }
-        }
-
-        private static void HydrateGameObjects(Pool pool, List<IEnumerable<Team>> gameList)
-        {
-
-        }
-
-        private void CreateGameObjects(int numOfGames, Pool pool)
-        {
-            pool.Games = new List<Game>();
-            for (int i = 0; i < numOfGames; i++)
-            {
-                pool.Games.Add(new Game() { Teams = new List<Team>() });
-            }
         }
 
         private void AssignSnakeSeedTeamNames(int numOfTeams, List<Pool> pools)
@@ -123,21 +96,6 @@ namespace PoolGen.Components
             }
         }
 
-        IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> items, int count)
-        {
-            int i = 0;
-            foreach (var item in items)
-            {
-                if (count == 1)
-                    yield return new T[] { item };
-                else
-                {
-                    foreach (var result in GetPermutations(items.Skip(i + 1), count - 1))
-                        yield return new T[] { item }.Concat(result);
-                }
-
-                ++i;
-            }
-        }
+        
     }
 }
