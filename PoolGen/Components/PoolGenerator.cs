@@ -19,9 +19,18 @@ namespace PoolGen.Components
             return pools;
         }
 
+        private void CreatePoolObjects(int numOfPools, List<Pool> pools)
+        {
+            for (int i = 0; i < numOfPools; i++)
+            {
+                pools.Add(new Pool());
+            }
+        }
+
         private void CreateTeamObjects(int numOfTeams, List<Pool> pools)
         {
             var numTeamsPerPool = numOfTeams / pools.Count();
+            var overFlow = numOfTeams % pools.Count;
 
             foreach (var pool in pools)
             {
@@ -31,7 +40,6 @@ namespace PoolGen.Components
                     pool.Teams.Add(new Team());
                 }
             }
-            var overFlow = numOfTeams % pools.Count;
 
             if (overFlow != 0)
             {
@@ -42,13 +50,6 @@ namespace PoolGen.Components
             }
         }
 
-        private void CreatePoolObjects(int numOfPools, List<Pool> pools)
-        {
-            for (int i = 0; i < numOfPools; i++)
-            {
-                pools.Add(new Pool());
-            }
-        }
 
         private static void ValidateArgs(int numOfPools, int numOfTeams, int numOfRounds)
         {
