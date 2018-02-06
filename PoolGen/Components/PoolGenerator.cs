@@ -31,10 +31,14 @@ namespace PoolGen.Components
                     pool.Teams.Add(new Team());
                 }
             }
+            var overFlow = numOfTeams % pools.Count;
 
-            if (pools.Count() % 2 != 0)
+            if (overFlow != 0)
             {
-                pools.Last().Teams.Add(new Team());
+                for (int i = 0; i < overFlow; i++)
+                {
+                    pools[pools.Count - 1 - i].Teams.Add(new Team());
+                }
             }
         }
 
