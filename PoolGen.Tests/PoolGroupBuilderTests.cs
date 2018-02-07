@@ -47,5 +47,20 @@ namespace PoolGen.Tests
             var result = poolGroup.Pools.All(pool => pool.Teams.Count == 2);
             Assert.True(result);
         }
+
+        [Fact]
+        public void Builder_Returns_Two_Pools_Distributes_Unequal_Number_of_Teams_Using_Snake_Seed()
+        {
+            PoolGroupBuilder builder = new PoolGroupBuilder();
+            PoolGroup poolGroup = builder
+                .WithPools(2)
+                .WithTeams(5);
+
+            var IsTwo   = poolGroup.Pools[0].Teams.Count.Equals(2);
+            var IsThree = poolGroup.Pools[1].Teams.Count.Equals(3);
+
+            Assert.True(IsTwo && IsThree);
+
+        }
     }
 }
