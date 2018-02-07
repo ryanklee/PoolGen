@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoolGen", "PoolGen\PoolGen.csproj", "{F97BF21C-9307-4633-91DC-2F469FAB09A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PoolGen", "PoolGen\PoolGen.csproj", "{F97BF21C-9307-4633-91DC-2F469FAB09A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoolGen.Tests", "PoolGen.Tests\PoolGen.Tests.csproj", "{1C8E7E5B-46E8-4A9B-9FAD-5C54B081F342}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PoolGen.Tests", "PoolGen.Tests\PoolGen.Tests.csproj", "{1C8E7E5B-46E8-4A9B-9FAD-5C54B081F342}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

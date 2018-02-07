@@ -58,8 +58,13 @@ namespace PoolGen.Models.Builders
         {
             for (int i = 0; i < _numOfPools; i++)
             {
-                _poolGroup.Pools.Add(new Pool());
+                _poolGroup.Pools.Add(new Pool() { Name = "Pool " + GetLetter(i)});
             }
+        }
+
+        private char GetLetter(int letterPosition)
+        {
+            return Convert.ToChar(65 + letterPosition);
         }
 
         private void CreateTeamObjects()

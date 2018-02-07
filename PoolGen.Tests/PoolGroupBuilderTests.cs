@@ -94,5 +94,25 @@ namespace PoolGen.Tests
 
             Assert.True(IsFour && IsThree);
         }
+
+        [Fact]
+        public void Builder_Returns_Pools_Correctly_Named()
+        {
+            PoolGroupBuilder builder = new PoolGroupBuilder();
+            PoolGroup poolGroup = builder
+                .WithPools(4)
+                .WithTeams(1)
+                .UsingSeed("seq");
+
+            var IsPoolA = poolGroup.Pools[0].Name.Equals("Pool A");
+            var IsPoolB = poolGroup.Pools[1].Name.Equals("Pool B");
+            var IsPoolC = poolGroup.Pools[2].Name.Equals("Pool C");
+            var IsPoolD = poolGroup.Pools[3].Name.Equals("Pool D");
+
+            Assert.True(IsPoolA &&
+                        IsPoolB &&
+                        IsPoolC &&
+                        IsPoolD);
+        }
     }
 }
