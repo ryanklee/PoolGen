@@ -9,7 +9,8 @@ namespace PoolGen.Models.Builders
     public class PoolGroupBuilder : IPoolGroupBuilder
     {
         private PoolGroup _poolGroup = new PoolGroup();
-        private String _seedMethod = "snake";
+        private String _seedMethod;
+        private int _numOfTeams;
 
         public PoolGroupBuilder WithPools(int numOfPools)
         {
@@ -18,15 +19,49 @@ namespace PoolGen.Models.Builders
             {
                 _poolGroup.Pools.Add(new Pool());
             }
-
             return this;
         }
 
         public PoolGroupBuilder WithTeams(int numOfTeams)
         {
+
+            _numOfTeams = numOfTeams;
+
+            return this;
+        }
+
+        public PoolGroupBuilder WithRounds(int numOfRounds)
+        {
+            return this;
+        }
+
+        /// <summary>
+        /// Determine seeding method. Supports snake and sequential seeding.         
+        /// </summary>
+        /// <param name="seedMethod">"snake" for Snake seeding, "seq" for sequential seeding</param>
+        /// <returns></returns>
+        public PoolGroupBuilder UsingSeed(string seedMethod)
+        {
+            _seedMethod = seedMethod;
+            return this;
+        }
+
+        public PoolGroup Build()
+        {
+            CreatePools();
+            return _poolGroup;
+        }
+
+        public static implicit operator PoolGroup(PoolGroupBuilder pgb)
+        {
+            return pgb.Build();
+        }
+
+        private void CreatePools()
+        {
             var numOfPools = _poolGroup.Pools.Count;
-            var numTeamsPerPool = numOfTeams / numOfPools;
-            var overflow = numOfTeams % numOfPools;
+            var numTeamsPerPool = _numOfTeams / numOfPools;
+            var overflow = _numOfTeams % numOfPools;
 
             _poolGroup.Pools.ForEach(pool => pool.Teams = new List<Team>());
 
@@ -42,29 +77,12 @@ namespace PoolGen.Models.Builders
                 {
                     _poolGroup.Pools[numOfPools - 1 - i].Teams.Add(new Team());
                 }
+
+                if (_seedMethod == "seq")
+                {
+                    _poolGroup.Pools[i].Teams.Add(new Team());
+                }
             }
-            return this;
-        }
-
-        public PoolGroupBuilder WithRounds(int numOfRounds)
-        {
-            return this;
-        }
-
-        public PoolGroupBuilder UsingSeed(string seedMethod)
-        {
-            _seedMethod = seedMethod;
-            return this;
-        }
-
-        public PoolGroup Build()
-        {
-            return _poolGroup;
-        }
-
-        public static implicit operator PoolGroup(PoolGroupBuilder pgb)
-        {
-            return pgb.Build();
         }
     }
 }

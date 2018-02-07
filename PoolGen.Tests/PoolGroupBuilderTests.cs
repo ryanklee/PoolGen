@@ -30,7 +30,8 @@ namespace PoolGen.Tests
             var expected = 5;
             PoolGroup poolGroup = builder
                 .WithPools(1)
-                .WithTeams(expected);
+                .WithTeams(expected)
+                .UsingSeed("snake");
 
             var actual = poolGroup.Pools.First().Teams.Count;
             Assert.Equal(expected, actual);
@@ -42,7 +43,8 @@ namespace PoolGen.Tests
             PoolGroupBuilder builder = new PoolGroupBuilder();
             PoolGroup poolGroup = builder
                 .WithPools(2)
-                .WithTeams(4);
+                .WithTeams(4)
+                .UsingSeed("snake");
 
             var result = poolGroup.Pools.All(pool => pool.Teams.Count == 2);
             Assert.True(result);
@@ -54,13 +56,43 @@ namespace PoolGen.Tests
             PoolGroupBuilder builder = new PoolGroupBuilder();
             PoolGroup poolGroup = builder
                 .WithPools(2)
-                .WithTeams(5);
+                .WithTeams(5)
+                .UsingSeed("snake");
 
             var IsTwo   = poolGroup.Pools[0].Teams.Count.Equals(2);
             var IsThree = poolGroup.Pools[1].Teams.Count.Equals(3);
 
             Assert.True(IsTwo && IsThree);
+        }
 
+        [Fact]
+        public void Builder_Returns_Four_Pools_Distributes_Fourteen_Teams_Using_Snake_Seed()
+        {
+            PoolGroupBuilder builder = new PoolGroupBuilder();
+            PoolGroup poolGroup = builder
+                .WithPools(4)
+                .WithTeams(14)
+                .UsingSeed("snake");
+
+            var IsThree = poolGroup.Pools.Take(2).All(pool => pool.Teams.Count == 3);
+            var IsFour  = poolGroup.Pools.TakeLast(2).All(pool => pool.Teams.Count == 4);
+
+            Assert.True(IsThree && IsFour);
+        }
+
+        [Fact]
+        public void Builder_Returns_Four_Pools_Distributes_Fourteen_Teams_Using_Seq_Seed()
+        {
+            PoolGroupBuilder builder = new PoolGroupBuilder();
+            PoolGroup poolGroup = builder
+                .WithPools(4)
+                .WithTeams(14)
+                .UsingSeed("seq");
+
+            var IsFour = poolGroup.Pools.Take(2).All(pool => pool.Teams.Count == 4);
+            var IsThree = poolGroup.Pools.TakeLast(2).All(pool => pool.Teams.Count == 3);
+
+            Assert.True(IsFour && IsThree);
         }
     }
 }
