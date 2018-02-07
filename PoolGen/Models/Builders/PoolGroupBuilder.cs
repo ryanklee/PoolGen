@@ -10,21 +10,17 @@ namespace PoolGen.Models.Builders
     {
         private PoolGroup _poolGroup = new PoolGroup();
         private String _seedMethod;
+        private int _numOfPools;
         private int _numOfTeams;
 
         public PoolGroupBuilder WithPools(int numOfPools)
         {
-            
-            for (int i = 0; i < numOfPools; i++)
-            {
-                _poolGroup.Pools.Add(new Pool());
-            }
+            _numOfPools = numOfPools;
             return this;
         }
 
         public PoolGroupBuilder WithTeams(int numOfTeams)
         {
-
             _numOfTeams = numOfTeams;
 
             return this;
@@ -48,7 +44,8 @@ namespace PoolGen.Models.Builders
 
         public PoolGroup Build()
         {
-            CreatePools();
+            CreatePoolObjects();
+            CreateTeamObjects();
             return _poolGroup;
         }
 
@@ -57,7 +54,15 @@ namespace PoolGen.Models.Builders
             return pgb.Build();
         }
 
-        private void CreatePools()
+        private void CreatePoolObjects()
+        {
+            for (int i = 0; i < _numOfPools; i++)
+            {
+                _poolGroup.Pools.Add(new Pool());
+            }
+        }
+
+        private void CreateTeamObjects()
         {
             var numOfPools = _poolGroup.Pools.Count;
             var numTeamsPerPool = _numOfTeams / numOfPools;
