@@ -14,8 +14,7 @@ namespace PoolGen.Controllers
         {
             return new JsonResult(new List<object>()
             {
-                new { id=1, Name="Ma"},
-                new { id=2, Name="Yo"}
+              
             });
         }
 
