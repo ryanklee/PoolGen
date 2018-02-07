@@ -37,7 +37,7 @@ namespace PoolGen.Tests
         }
 
         [Fact]
-        public void Builder_Returns_Multiple_Pools_with_Even_Num_of_Team()
+        public void Builder_Returns_Two_Pools_with_Even_Num_of_Team()
         {
             PoolGroupBuilder builder = new PoolGroupBuilder();
             PoolGroup poolGroup = builder
