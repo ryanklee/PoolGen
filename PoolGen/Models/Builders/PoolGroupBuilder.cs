@@ -4,22 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PoolGen.Models
+namespace PoolGen.Models.Builders
 {
     public class PoolGroupBuilder : IPoolGroupBuilder
     {
         private PoolGroup _poolGroup = new PoolGroup();
         private String _seedMethod = "snake";
 
-        public void Pools(int numOfPools)
+        public PoolGroupBuilder WithPools(int numOfPools)
         {
+            
             for (int i = 0; i < numOfPools; i++)
             {
                 _poolGroup.Pools.Add(new Pool());
             }
+
+            return this;
         }
 
-        public void Teams(int numOfTeams)
+        public PoolGroupBuilder WithTeams(int numOfTeams)
         {
             var numOfPools = _poolGroup.Pools.Count;
             var numTeamsPerPool = numOfTeams / numOfPools;
@@ -40,21 +43,28 @@ namespace PoolGen.Models
                     _poolGroup.Pools[numOfPools - 1 - i].Teams.Add(new Team());
                 }
             }
+            return this;
         }
 
-        public void Rounds(int numOfRounds)
+        public PoolGroupBuilder WithRounds(int numOfRounds)
         {
-            throw new NotImplementedException();
+            return this;
         }
 
-        public void UsingSeed(string seedMethod)
+        public PoolGroupBuilder UsingSeed(string seedMethod)
         {
             _seedMethod = seedMethod;
+            return this;
         }
 
         public PoolGroup Build()
         {
-            throw new NotImplementedException();
+            return _poolGroup;
+        }
+
+        public static implicit operator PoolGroup(PoolGroupBuilder pgb)
+        {
+            return pgb.Build();
         }
     }
 }

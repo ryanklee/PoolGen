@@ -8,6 +8,6 @@ namespace PoolGen.Models
 {
     public class PoolGroup
     {
-        public List<Pool> Pools { get; set; }
+        public List<Pool> Pools = new List<Pool>();
     }
 }
