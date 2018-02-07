@@ -35,5 +35,17 @@ namespace PoolGen.Tests
             var actual = poolGroup.Pools.First().Teams.Count;
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void Builder_Returns_Multiple_Pools_with_Even_Num_of_Team()
+        {
+            PoolGroupBuilder builder = new PoolGroupBuilder();
+            PoolGroup poolGroup = builder
+                .WithPools(2)
+                .WithTeams(4);
+
+            var result = poolGroup.Pools.All(pool => pool.Teams.Count == 2);
+            Assert.True(result);
+        }
     }
 }
