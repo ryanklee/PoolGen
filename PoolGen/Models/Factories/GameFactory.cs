@@ -8,7 +8,7 @@ namespace PoolGen.Models.Factories
 {
     public class GameFactory
     {
-        public List<Pool> Create(List<Pool> pools)
+        public List<Pool> Create(List<Pool> pools, int numOfRounds)
         {
             var gameId = 0;
             foreach (var pool in pools)
@@ -18,17 +18,20 @@ namespace PoolGen.Models.Factories
 
                 foreach (var game in games)
                 {
-                    var newGame = new Game();
-                    newGame.Teams = new List<Team>();
-
-                    foreach (var team in game)
+                    for (int i = 0; i < numOfRounds; i++)
                     {
-                        newGame.Teams.Add(team);
-                    }
+                        var newGame = new Game();
+                        newGame.Teams = new List<Team>();
 
-                    newGame.Id = gameId;
-                    pool.Games.Add(newGame);
-                    gameId++;
+                        foreach (var team in game)
+                        {
+                            newGame.Teams.Add(team);
+                        }
+
+                        newGame.Id = gameId;
+                        pool.Games.Add(newGame);
+                        gameId++;
+                    }
                 }
             }
             return pools;

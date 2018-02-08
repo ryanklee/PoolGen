@@ -154,5 +154,19 @@ namespace PoolGen.Tests
                         isTeamTen &&
                         isTeamFourteen);
         }
+
+        [Fact]
+        public void Builder_Returns_Correct_Matches_for_Multiple_Rounds()
+        {
+            PoolGroupBuilder builder = new PoolGroupBuilder();
+            PoolGroup poolGroup = builder
+                .WithPools(1)
+                .WithTeams(4)
+                .WithRounds(2)
+                .UsingSeed(SeedMethod.Sequential);
+        
+            Assert.True(poolGroup.Pools[0].Games[0].Id == 0);
+            Assert.True(poolGroup.Pools[0].Games[11].Id == 11);
+        }
     }
 }

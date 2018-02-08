@@ -13,6 +13,7 @@ namespace PoolGen.Models.Builders
         private SeedMethod _seedMethod;
         private int _numOfPools;
         private int _numOfTeams;
+        private int _numOfRounds;
 
         public PoolGroupBuilder WithPools(int numOfPools)
         {
@@ -28,6 +29,7 @@ namespace PoolGen.Models.Builders
 
         public PoolGroupBuilder WithRounds(int numOfRounds)
         {
+            _numOfRounds = numOfRounds;
             return this;
         }
 
@@ -45,7 +47,7 @@ namespace PoolGen.Models.Builders
 
             _poolGroup.Pools = poolFactory.Create(_numOfPools);
             _poolGroup.Pools = teamFactory.Create(_poolGroup.Pools, _numOfTeams, _seedMethod);
-            _poolGroup.Pools = gameFactory.Create(_poolGroup.Pools);
+            _poolGroup.Pools = gameFactory.Create(_poolGroup.Pools, _numOfRounds);
 
             return _poolGroup;
         }
