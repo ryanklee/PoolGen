@@ -8,12 +8,15 @@ namespace PoolGen.Models.Factories
     public class TeamFactory
     {
         private int _numOfTeams;
+        private SeedMethod _seedMethod;
 
         public List<Pool> Create(List<Pool> pools, int numOfTeams, SeedMethod seedMethod)
         {
             _numOfTeams = numOfTeams;
+            _seedMethod = seedMethod;
             pools = CreateEmptyTeamLists(pools);
-            pools = PopulateTeamLists(pools, seedMethod);
+            pools = PopulateTeamLists(pools);
+            pools = NameTeams(pools);
             return pools;
         }
 
@@ -23,7 +26,7 @@ namespace PoolGen.Models.Factories
             return pools;
         }
 
-        private List<Pool> PopulateTeamLists(List<Pool> pools, SeedMethod seedMethod)
+        private List<Pool> PopulateTeamLists(List<Pool> pools)
         {
             var numOfPools = pools.Count;
             var numTeamsPerPool = _numOfTeams / numOfPools;
@@ -36,15 +39,48 @@ namespace PoolGen.Models.Factories
 
             for (int i = 0; i < overflow; i++)
             {
-                if (seedMethod == SeedMethod.Snake)
+                if (_seedMethod == SeedMethod.Snake)
                 {
                     pools[numOfPools - 1 - i].Teams.Add(new Team());
                 }
 
-                if (seedMethod == SeedMethod.Sequential)
+                if (_seedMethod == SeedMethod.Sequential)
                 {
                     pools[i].Teams.Add(new Team());
                 }
+            }
+            return pools;
+        }
+
+        private List<Pool> NameTeams(List<Pool> pools)
+        {
+            if (_seedMethod == SeedMethod.Snake)
+            {
+                pools = PopulateNamesForSnakeSeed(pools);
+            }
+            return pools;
+        }
+
+        private List<Pool> PopulateNamesForSnakeSeed(List<Pool> pools)
+        {
+            var teamNumber = 1;
+            var poolPosition = 0;
+            while (teamNumber < _numOfTeams)
+            {
+                for (int i = 0; i < pools.Count; i++)
+                {
+                    pools[i].Teams[poolPosition].Name = "Team " + teamNumber.ToString();
+                    teamNumber++;
+                }
+                poolPosition++;
+
+                for (int i = pools.Count - 1; i >= 0; i--)
+                {
+                    if (poolPosition >= pools[i].Teams.Count) break;
+                    pools[i].Teams[poolPosition].Name = "Team " + teamNumber.ToString();
+                    teamNumber++;
+                }
+                poolPosition++;
             }
             return pools;
         }

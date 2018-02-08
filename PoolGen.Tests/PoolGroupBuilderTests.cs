@@ -114,5 +114,25 @@ namespace PoolGen.Tests
                         IsPoolC &&
                         IsPoolD);
         }
+
+        [Fact]
+        public void Builder_Returns_Teams_Correctly_Named_for_Snake_Seed()
+        {
+            PoolGroupBuilder builder = new PoolGroupBuilder();
+            PoolGroup poolGroup = builder
+                .WithPools(4)
+                .WithTeams(14)
+                .UsingSeed(SeedMethod.Snake);
+
+            var isTeamFour       = poolGroup.Pools[3].Teams[0].Name.Equals("Team 4");
+            var isTeamFive      = poolGroup.Pools[3].Teams[1].Name.Equals("Team 5");
+            var isTeamTwelve      = poolGroup.Pools[3].Teams[2].Name.Equals("Team 12");
+            var isTeamThirteen  = poolGroup.Pools[3].Teams[3].Name.Equals("Team 13");
+
+            Assert.True(isTeamFour &&
+                        isTeamFive &&
+                        isTeamTwelve &&
+                        isTeamThirteen);
+        }
     }
 }
