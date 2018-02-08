@@ -54,32 +54,38 @@ namespace PoolGen.Models.Factories
 
         private List<Pool> NameTeams(List<Pool> pools)
         {
-            if (_seedMethod == SeedMethod.Snake)
-            {
-                pools = PopulateNamesForSnakeSeed(pools);
-            }
-            return pools;
-        }
-
-        private List<Pool> PopulateNamesForSnakeSeed(List<Pool> pools)
-        {
             var teamNumber = 1;
             var poolPosition = 0;
             while (teamNumber < _numOfTeams)
             {
                 for (int i = 0; i < pools.Count; i++)
                 {
+                    if (poolPosition >= pools[i].Teams.Count) break;
                     pools[i].Teams[poolPosition].Name = "Team " + teamNumber.ToString();
                     teamNumber++;
                 }
                 poolPosition++;
 
-                for (int i = pools.Count - 1; i >= 0; i--)
+                if (_seedMethod == SeedMethod.Snake)
                 {
-                    if (poolPosition >= pools[i].Teams.Count) break;
-                    pools[i].Teams[poolPosition].Name = "Team " + teamNumber.ToString();
-                    teamNumber++;
+                    for (int i = pools.Count - 1; i >= 0; i--)
+                    {
+                        if (poolPosition >= pools[i].Teams.Count) break;
+                        pools[i].Teams[poolPosition].Name = "Team " + teamNumber.ToString();
+                        teamNumber++;
+                    }
                 }
+                else if (_seedMethod == SeedMethod.Sequential)
+                {
+                    for (int i = 0; i < pools.Count; i++)
+                    {
+                        if (poolPosition >= pools[i].Teams.Count) break;
+                        pools[i].Teams[poolPosition].Name = "Team " + teamNumber.ToString();
+                        teamNumber++;
+                    }
+
+                }
+                
                 poolPosition++;
             }
             return pools;

@@ -7,7 +7,7 @@ using PoolGen.Models.Builders;
 
 namespace PoolGen.Tests
 {
-    public class PoolGroupBuilderTests
+    public class PoolGenTests
     {
         [Fact]
         public void Builder_Returns_Pool_Group_of_Requested_Size()
@@ -59,7 +59,7 @@ namespace PoolGen.Tests
                 .WithTeams(5)
                 .UsingSeed(SeedMethod.Snake);
 
-            var IsTwo   = poolGroup.Pools[0].Teams.Count.Equals(2);
+            var IsTwo = poolGroup.Pools[0].Teams.Count.Equals(2);
             var IsThree = poolGroup.Pools[1].Teams.Count.Equals(3);
 
             Assert.True(IsTwo && IsThree);
@@ -75,7 +75,7 @@ namespace PoolGen.Tests
                 .UsingSeed(SeedMethod.Snake);
 
             var IsThree = poolGroup.Pools.Take(2).All(pool => pool.Teams.Count == 3);
-            var IsFour  = poolGroup.Pools.TakeLast(2).All(pool => pool.Teams.Count == 4);
+            var IsFour = poolGroup.Pools.TakeLast(2).All(pool => pool.Teams.Count == 4);
 
             Assert.True(IsThree && IsFour);
         }
@@ -124,15 +124,35 @@ namespace PoolGen.Tests
                 .WithTeams(14)
                 .UsingSeed(SeedMethod.Snake);
 
-            var isTeamFour       = poolGroup.Pools[3].Teams[0].Name.Equals("Team 4");
+            var isTeamFour      = poolGroup.Pools[3].Teams[0].Name.Equals("Team 4");
             var isTeamFive      = poolGroup.Pools[3].Teams[1].Name.Equals("Team 5");
-            var isTeamTwelve      = poolGroup.Pools[3].Teams[2].Name.Equals("Team 12");
+            var isTeamTwelve    = poolGroup.Pools[3].Teams[2].Name.Equals("Team 12");
             var isTeamThirteen  = poolGroup.Pools[3].Teams[3].Name.Equals("Team 13");
 
             Assert.True(isTeamFour &&
                         isTeamFive &&
                         isTeamTwelve &&
                         isTeamThirteen);
+        }
+
+        [Fact]
+        public void Builder_Returns_Teams_Correctly_Named_for_Seq_Seed()
+        {
+            PoolGroupBuilder builder = new PoolGroupBuilder();
+            PoolGroup poolGroup = builder
+                .WithPools(4)
+                .WithTeams(14)
+                .UsingSeed(SeedMethod.Sequential);
+
+            var isTeamTwo      = poolGroup.Pools[1].Teams[0].Name.Equals("Team 2");
+            var isTeamSix      = poolGroup.Pools[1].Teams[1].Name.Equals("Team 6");
+            var isTeamTen      = poolGroup.Pools[1].Teams[2].Name.Equals("Team 10");
+            var isTeamFourteen = poolGroup.Pools[1].Teams[3].Name.Equals("Team 14");
+
+            Assert.True(isTeamTwo &&
+                        isTeamSix &&
+                        isTeamTen &&
+                        isTeamFourteen);
         }
     }
 }
