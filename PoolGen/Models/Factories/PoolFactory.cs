@@ -14,10 +14,8 @@ namespace PoolGen.Models.Factories
             {
                 pools.Add(new Pool() { Name = GetPoolName(i) });
             }
-
             return pools;
         }
-      
 
         private string GetPoolName(int letterPosition)
         {

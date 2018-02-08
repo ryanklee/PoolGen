@@ -41,9 +41,11 @@ namespace PoolGen.Models.Builders
         {
             PoolFactory poolFactory = new PoolFactory();
             TeamFactory teamFactory = new TeamFactory();
+            GameFactory gameFactory = new GameFactory();
 
             _poolGroup.Pools = poolFactory.Create(_numOfPools);
             _poolGroup.Pools = teamFactory.Create(_poolGroup.Pools, _numOfTeams, _seedMethod);
+            _poolGroup.Pools = gameFactory.Create(_poolGroup.Pools);
 
             return _poolGroup;
         }
