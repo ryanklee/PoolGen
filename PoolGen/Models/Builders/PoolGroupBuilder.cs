@@ -1,4 +1,5 @@
-﻿using PoolGen.Models.Intefaces;
+﻿using PoolGen.Models.Factories;
+using PoolGen.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,11 +31,6 @@ namespace PoolGen.Models.Builders
             return this;
         }
 
-        /// <summary>
-        /// Specify seeding method.        
-        /// </summary>
-        /// <param name="seedMethod">"snake" for Snake seeding, "seq" for sequential seeding</param>
-        /// <returns></returns>
         public PoolGroupBuilder UsingSeed(SeedMethod seedMethod)
         {
             _seedMethod = seedMethod;
@@ -43,8 +39,12 @@ namespace PoolGen.Models.Builders
 
         public PoolGroup Build()
         {
-            CreatePoolObjects();
-            CreateTeamObjects();
+            PoolFactory poolFactory = new PoolFactory();
+            TeamFactory teamFactory = new TeamFactory();
+
+            _poolGroup.Pools = poolFactory.Create(_numOfPools);
+            _poolGroup.Pools = teamFactory.Create(_poolGroup.Pools, _numOfTeams, _seedMethod);
+
             return _poolGroup;
         }
 
@@ -53,47 +53,8 @@ namespace PoolGen.Models.Builders
             return pgb.Build();
         }
 
-        private void CreatePoolObjects()
-        {
-            for (int i = 0; i < _numOfPools; i++)
-            {
-                _poolGroup.Pools.Add(new Pool() { Name = GetPoolName(i)});
-            }
-        }
+        
 
-        private string GetPoolName(int letterPosition)
-        {
-            char letter = Convert.ToChar(65 + letterPosition);
-            var poolName = "Pool " + letter;
-            return poolName;
-        }
-
-        private void CreateTeamObjects()
-        {
-            var numOfPools = _poolGroup.Pools.Count;
-            var numTeamsPerPool = _numOfTeams / numOfPools;
-            var overflow = _numOfTeams % numOfPools;
-
-            _poolGroup.Pools.ForEach(pool => pool.Teams = new List<Team>());
-
-            for (int i = 0; i < numTeamsPerPool; i++)
-            {
-                _poolGroup.Pools.ForEach(pool => pool.Teams.Add(new Team()));
-
-            }
-
-            for (int i = 0; i < overflow; i++)
-            {
-                if (_seedMethod == SeedMethod.Snake)
-                {
-                    _poolGroup.Pools[numOfPools - 1 - i].Teams.Add(new Team());
-                }
-
-                if (_seedMethod == SeedMethod.Sequential)
-                {
-                    _poolGroup.Pools[i].Teams.Add(new Team());
-                }
-            }
-        }
+        
     }
 }
