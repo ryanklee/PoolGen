@@ -9,7 +9,7 @@ namespace PoolGen.Models.Builders
     public class PoolGroupBuilder : IPoolGroupBuilder
     {
         private PoolGroup _poolGroup = new PoolGroup();
-        private String _seedMethod;
+        private SeedMethod _seedMethod;
         private int _numOfPools;
         private int _numOfTeams;
 
@@ -22,7 +22,6 @@ namespace PoolGen.Models.Builders
         public PoolGroupBuilder WithTeams(int numOfTeams)
         {
             _numOfTeams = numOfTeams;
-
             return this;
         }
 
@@ -32,11 +31,11 @@ namespace PoolGen.Models.Builders
         }
 
         /// <summary>
-        /// Determine seeding method. Supports snake and sequential seeding.         
+        /// Specify seeding method.        
         /// </summary>
         /// <param name="seedMethod">"snake" for Snake seeding, "seq" for sequential seeding</param>
         /// <returns></returns>
-        public PoolGroupBuilder UsingSeed(string seedMethod)
+        public PoolGroupBuilder UsingSeed(SeedMethod seedMethod)
         {
             _seedMethod = seedMethod;
             return this;
@@ -58,13 +57,15 @@ namespace PoolGen.Models.Builders
         {
             for (int i = 0; i < _numOfPools; i++)
             {
-                _poolGroup.Pools.Add(new Pool() { Name = "Pool " + GetLetter(i)});
+                _poolGroup.Pools.Add(new Pool() { Name = GetPoolName(i)});
             }
         }
 
-        private char GetLetter(int letterPosition)
+        private string GetPoolName(int letterPosition)
         {
-            return Convert.ToChar(65 + letterPosition);
+            char letter = Convert.ToChar(65 + letterPosition);
+            var poolName = "Pool " + letter;
+            return poolName;
         }
 
         private void CreateTeamObjects()
@@ -83,12 +84,12 @@ namespace PoolGen.Models.Builders
 
             for (int i = 0; i < overflow; i++)
             {
-                if (_seedMethod == "snake")
+                if (_seedMethod == SeedMethod.Snake)
                 {
                     _poolGroup.Pools[numOfPools - 1 - i].Teams.Add(new Team());
                 }
 
-                if (_seedMethod == "seq")
+                if (_seedMethod == SeedMethod.Sequential)
                 {
                     _poolGroup.Pools[i].Teams.Add(new Team());
                 }

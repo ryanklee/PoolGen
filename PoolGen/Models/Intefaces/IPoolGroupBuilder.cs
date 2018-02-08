@@ -11,7 +11,7 @@ namespace PoolGen.Models.Intefaces
         PoolGroupBuilder WithPools(int numOfPools);
         PoolGroupBuilder WithTeams(int numOfTeams);
         PoolGroupBuilder WithRounds(int numOfRounds);
-        PoolGroupBuilder UsingSeed(string seedMethod);
+        PoolGroupBuilder UsingSeed(SeedMethod seedMethod);
         PoolGroup Build();
     }
 }

@@ -31,7 +31,7 @@ namespace PoolGen.Tests
             PoolGroup poolGroup = builder
                 .WithPools(1)
                 .WithTeams(expected)
-                .UsingSeed("snake");
+                .UsingSeed(SeedMethod.Snake);
 
             var actual = poolGroup.Pools.First().Teams.Count;
             Assert.Equal(expected, actual);
@@ -44,7 +44,7 @@ namespace PoolGen.Tests
             PoolGroup poolGroup = builder
                 .WithPools(2)
                 .WithTeams(4)
-                .UsingSeed("snake");
+                .UsingSeed(SeedMethod.Snake);
 
             var result = poolGroup.Pools.All(pool => pool.Teams.Count == 2);
             Assert.True(result);
@@ -57,7 +57,7 @@ namespace PoolGen.Tests
             PoolGroup poolGroup = builder
                 .WithPools(2)
                 .WithTeams(5)
-                .UsingSeed("snake");
+                .UsingSeed(SeedMethod.Snake);
 
             var IsTwo   = poolGroup.Pools[0].Teams.Count.Equals(2);
             var IsThree = poolGroup.Pools[1].Teams.Count.Equals(3);
@@ -72,7 +72,7 @@ namespace PoolGen.Tests
             PoolGroup poolGroup = builder
                 .WithPools(4)
                 .WithTeams(14)
-                .UsingSeed("snake");
+                .UsingSeed(SeedMethod.Snake);
 
             var IsThree = poolGroup.Pools.Take(2).All(pool => pool.Teams.Count == 3);
             var IsFour  = poolGroup.Pools.TakeLast(2).All(pool => pool.Teams.Count == 4);
@@ -87,7 +87,7 @@ namespace PoolGen.Tests
             PoolGroup poolGroup = builder
                 .WithPools(4)
                 .WithTeams(14)
-                .UsingSeed("seq");
+                .UsingSeed(SeedMethod.Sequential);
 
             var IsFour = poolGroup.Pools.Take(2).All(pool => pool.Teams.Count == 4);
             var IsThree = poolGroup.Pools.TakeLast(2).All(pool => pool.Teams.Count == 3);
@@ -102,7 +102,7 @@ namespace PoolGen.Tests
             PoolGroup poolGroup = builder
                 .WithPools(4)
                 .WithTeams(1)
-                .UsingSeed("seq");
+                .UsingSeed(SeedMethod.Sequential);
 
             var IsPoolA = poolGroup.Pools[0].Name.Equals("Pool A");
             var IsPoolB = poolGroup.Pools[1].Name.Equals("Pool B");
