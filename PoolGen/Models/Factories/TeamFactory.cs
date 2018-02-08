@@ -66,6 +66,9 @@ namespace PoolGen.Models.Factories
                 }
                 poolPosition++;
 
+                // Snake seeding, even layers proceed right to left,
+                // Seq seeding, from left to right
+               
                 if (_seedMethod == SeedMethod.Snake)
                 {
                     for (int i = pools.Count - 1; i >= 0; i--)
@@ -85,7 +88,6 @@ namespace PoolGen.Models.Factories
                     }
 
                 }
-                
                 poolPosition++;
             }
             return pools;
