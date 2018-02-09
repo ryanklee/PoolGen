@@ -51,7 +51,7 @@ namespace PoolGen.Tests
         }
 
         [Fact]
-        public void Builder_Returns_Two_Pools_Distributes_Unequal_Number_of_Teams_Using_Snake_Seed()
+        public void Builder_Returns_Two_Pools_with_Odd_Num_of_Teams()
         {
             PoolGroupBuilder builder = new PoolGroupBuilder();
             PoolGroup poolGroup = builder
