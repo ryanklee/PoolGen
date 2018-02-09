@@ -89,6 +89,7 @@ namespace PoolGen.Models.Factories
 
                 }
                 poolPosition++;
+                if (pools.Any(pool => poolPosition > pool.Teams.Count)) break;
             }
             return pools;
         }
