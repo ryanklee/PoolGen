@@ -56,7 +56,7 @@ namespace PoolGen.Models.Factories
         {
             var teamNumber = 1;
             var poolPosition = 0;
-            while (teamNumber < _numOfTeams)
+            while (teamNumber <= _numOfTeams)
             {
                 for (int i = 0; i < pools.Count; i++)
                 {
