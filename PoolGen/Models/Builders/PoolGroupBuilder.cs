@@ -21,6 +21,11 @@ namespace PoolGen.Models.Builders
             return this;
         }
 
+        internal void UsingSeed(object sequential)
+        {
+            throw new NotImplementedException();
+        }
+
         public PoolGroupBuilder WithTeams(int numOfTeams)
         {
             _numOfTeams = numOfTeams;
