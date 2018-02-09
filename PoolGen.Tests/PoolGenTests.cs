@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using PoolGen.Models;
 using Xunit;
 using System.Linq;
