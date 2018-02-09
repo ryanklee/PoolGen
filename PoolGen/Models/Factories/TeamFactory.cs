@@ -68,11 +68,9 @@ namespace PoolGen.Models.Factories
 
             while (currentTeamNum <= _numOfTeams)
             {
-
                 for (int i = 0; i < pools.Count; i++)
                 {
-                    if (currentTeamNum >= _numOfTeams) break;
-                    if (currentRow >= pools[i].Teams.Count) break;
+                    if (currentTeamNum > _numOfTeams) break;
                     pools[i].Teams[currentRow].Name = "Team " + currentTeamNum;
                     currentTeamNum++;
                 }
@@ -82,16 +80,13 @@ namespace PoolGen.Models.Factories
                 {
                     for (int i = pools.Count - 1; i >= 0; i--)
                     {
-                        if (currentTeamNum >= _numOfTeams) break;
-                        if (currentRow > pools[i].Teams.Count) break;
+                        if (currentTeamNum > _numOfTeams) break;
                         pools[i].Teams[currentRow].Name = "Team " + currentTeamNum;
                         currentTeamNum++;
                     }
                     currentRow++;
                 }
-
             }
-
 
             return pools;
         }
