@@ -59,8 +59,23 @@ namespace PoolGen.Tests
                 .WithTeams(5)
                 .UsingSeed(SeedMethod.Snake);
 
-            var IsTwo = poolGroup.Pools[0].Teams.Count.Equals(2);
-            var IsThree = poolGroup.Pools[1].Teams.Count.Equals(3);
+            var IsThree = poolGroup.Pools[0].Teams.Count.Equals(3);
+            var IsTwo = poolGroup.Pools[1].Teams.Count.Equals(2);
+
+            Assert.True(IsTwo && IsThree);
+        }
+
+        [Fact]
+        public void Builder_Returns_Two_Pools_with_Odd_Num_of_Teams_seq()
+        {
+            PoolGroupBuilder builder = new PoolGroupBuilder();
+            PoolGroup poolGroup = builder
+                .WithPools(2)
+                .WithTeams(5)
+                .UsingSeed(SeedMethod.Sequential);
+
+            var IsThree = poolGroup.Pools[0].Teams.Count.Equals(3);
+            var IsTwo = poolGroup.Pools[1].Teams.Count.Equals(2);
 
             Assert.True(IsTwo && IsThree);
         }

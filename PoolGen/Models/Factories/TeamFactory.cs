@@ -31,17 +31,26 @@ namespace PoolGen.Models.Factories
             var numOfPools = pools.Count;
             var numTeamsPerPool = _numOfTeams / numOfPools;
             var overflow = _numOfTeams % numOfPools;
+            var currentRow = 0;
 
             for (int i = 0; i < numTeamsPerPool; i++)
             {
                 pools.ForEach(pool => pool.Teams.Add(new Team()));
+                currentRow++;
             }
 
             for (int i = 0; i < overflow; i++)
             {
                 if (_seedMethod == SeedMethod.Snake)
                 {
-                    pools[numOfPools - 1 - i].Teams.Add(new Team());
+                    if (currentRow % 2 != 0)
+                    {
+                        pools[numOfPools - 1 - i].Teams.Add(new Team());
+                    }
+                    else
+                    {
+                        pools[i].Teams.Add(new Team());
+                    }
                 }
 
                 if (_seedMethod == SeedMethod.Sequential)
@@ -54,43 +63,36 @@ namespace PoolGen.Models.Factories
 
         private List<Pool> NameTeams(List<Pool> pools)
         {
-            var teamNumber = 1;
-            var poolPosition = 0;
-            while (teamNumber <= _numOfTeams)
+            var currentTeamNum = 1;
+            var currentRow = 0;
+
+            while (currentTeamNum <= _numOfTeams)
             {
+
                 for (int i = 0; i < pools.Count; i++)
                 {
-                    if (poolPosition >= pools[i].Teams.Count) break;
-                    pools[i].Teams[poolPosition].Name = "Team " + teamNumber.ToString();
-                    teamNumber++;
+                    if (currentTeamNum >= _numOfTeams) break;
+                    if (currentRow >= pools[i].Teams.Count) break;
+                    pools[i].Teams[currentRow].Name = "Team " + currentTeamNum;
+                    currentTeamNum++;
                 }
-                poolPosition++;
+                currentRow++;
 
-                // Snake seeding, even layers proceed right to left,
-                // Seq seeding, from left to right
-               
-                if (_seedMethod == SeedMethod.Snake)
+                if (_seedMethod == SeedMethod.Snake && currentRow % 2 != 0)
                 {
                     for (int i = pools.Count - 1; i >= 0; i--)
                     {
-                        if (poolPosition >= pools[i].Teams.Count) break;
-                        pools[i].Teams[poolPosition].Name = "Team " + teamNumber.ToString();
-                        teamNumber++;
+                        if (currentTeamNum >= _numOfTeams) break;
+                        if (currentRow > pools[i].Teams.Count) break;
+                        pools[i].Teams[currentRow].Name = "Team " + currentTeamNum;
+                        currentTeamNum++;
                     }
+                    currentRow++;
                 }
-                else if (_seedMethod == SeedMethod.Sequential)
-                {
-                    for (int i = 0; i < pools.Count; i++)
-                    {
-                        if (poolPosition >= pools[i].Teams.Count) break;
-                        pools[i].Teams[poolPosition].Name = "Team " + teamNumber.ToString();
-                        teamNumber++;
-                    }
 
-                }
-                poolPosition++;
-                if (pools.Any(pool => poolPosition > pool.Teams.Count)) break;
             }
+
+
             return pools;
         }
     }
