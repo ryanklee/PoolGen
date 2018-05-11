@@ -2,7 +2,7 @@
 ---
 Barebones API for generating tournament pools. Generates pools using either snake seeding or sequential seeding.
 
-Issue `GET` requests to `http://poolgen.azurewebsites.net` in the following format:
+Issue `GET` requests in the following format:
 
 * **URL**
   *  `api/pools/snake/{pools}/{teams}/{rounds}` **[for snake seeded pools]**
@@ -19,7 +19,7 @@ Issue `GET` requests to `http://poolgen.azurewebsites.net` in the following form
 * **Sample Call**:
   *  `poolgen.azurewebsites.net/api/pools/seq/2/5/1`
 
-* **(Prettified) Sample JSON Response**:
+* **Sample JSON Response (Prettified)**:
 ~~~~
 {
     "pools": [
